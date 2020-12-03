@@ -22,9 +22,6 @@ use JsonSerializable;
  *     uniqueConstraints    = {
  *          @ORM\UniqueConstraint(
  *              name="IDX_UNIQ_USER", columns={ "username" }
- *          ),
- *          @ORM\UniqueConstraint(
- *              name="IDX_UNIQ_EMAIL", columns={ "email" }
  *          )
  *      }
  *     )
@@ -67,7 +64,7 @@ class User implements JsonSerializable
      *     type     = "string",
      *     length   = 60,
      *     nullable = false,
-     *     unique   = true
+     *     unique   = false
      *     )
      */
     private string $email;
@@ -241,7 +238,7 @@ class User implements JsonSerializable
      *
      * @return string
      */
-    public function __toString(): string
+    public function toString(): string
     {
         return sprintf(
             '%3d - %20s - %30s - %1d - %1d',
@@ -252,6 +249,16 @@ class User implements JsonSerializable
             $this->isAdmin
         );
     }
+
+    /**
+     * @return string
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+
 
     /**
      * Specify data which should be serialized to JSON

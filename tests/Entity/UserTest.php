@@ -23,10 +23,12 @@ use PHPUnit\Framework\TestCase;
  */
 class UserTest extends TestCase
 {
-    /**
-     * @var User $user
-     */
-    private $user;
+    private User $user;
+    private string $username = 'hector';
+    private string $email = 'x@xyz.com';
+    private string $password = '123';
+    private bool $enable = false;
+    private bool $admin = false;
 
     /**
      * Sets up the fixture.
@@ -35,6 +37,13 @@ class UserTest extends TestCase
     protected function setUp(): void
     {
         $this->user = new User();
+        $this->user = new User(
+            $this->username,
+            $this->email,
+            $this->password,
+            $this->enable,
+            $this->admin
+        );
     }
 
     /**
@@ -42,9 +51,18 @@ class UserTest extends TestCase
      */
     public function testConstructor(): void
     {
-        self::markTestIncomplete(
-            'This test has not been implemented yet.'
+        $this->user->__construct(
+            'pp',
+            'pp@',
+            '12',
+            true,
+            true
         );
+        $this->assertSame('pp', $this->user->getUsername());
+        $this->assertSame('pp@', $this->user->getEmail());
+        $this->assertSame(true, $this->user->validatePassword('12'));
+        $this->assertSame(true, $this->user->isEnabled());
+        $this->assertSame(true, $this->user->isAdmin());
     }
 
     /**
@@ -52,9 +70,7 @@ class UserTest extends TestCase
      */
     public function testGetId(): void
     {
-        self::markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->assertSame(0, $this->user->getId());
     }
 
     /**
@@ -63,9 +79,8 @@ class UserTest extends TestCase
      */
     public function testGetSetUsername(): void
     {
-        self::markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->user->setUsername('pepe');
+        $this->assertSame('pepe', $this->user->getUsername());
     }
 
     /**
@@ -74,9 +89,8 @@ class UserTest extends TestCase
      */
     public function testGetSetEmail(): void
     {
-        self::markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->user->setEmail('d@j.com');
+        $this->assertSame('d@j.com', $this->user->getEmail());
     }
 
     /**
@@ -85,9 +99,8 @@ class UserTest extends TestCase
      */
     public function testIsSetEnabled(): void
     {
-        self::markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->user->setEnabled(true);
+        $this->assertSame(true, $this->user->isEnabled());
     }
 
     /**
@@ -96,9 +109,8 @@ class UserTest extends TestCase
      */
     public function testIsSetAdmin(): void
     {
-        self::markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->user->setIsAdmin(true);
+        $this->assertSame(true, $this->user->isAdmin());
     }
 
     /**
@@ -107,9 +119,8 @@ class UserTest extends TestCase
      */
     public function testSetValidatePassword(): void
     {
-        self::markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->user->setPassword('12');
+        $this->assertSame(true, $this->user->validatePassword('12'));
     }
 
     /**
@@ -117,9 +128,14 @@ class UserTest extends TestCase
      */
     public function testToString(): void
     {
-        self::markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->assertSame(sprintf(
+            '%3d - %20s - %30s - %1d - %1d',
+            0,
+            $this->username,
+            $this->email,
+            $this->enable,
+            $this->admin
+        ), $this->user->toString());
     }
 
     /**
@@ -127,8 +143,12 @@ class UserTest extends TestCase
      */
     public function testJsonSerialize(): void
     {
-        self::markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->assertSame([
+            'id' => 0,
+            'username' => $this->username,
+            'email' => $this->email,
+            'enabled' => $this->enable,
+            'admin' => $this->admin
+        ], $this->user->jsonSerialize());
     }
 }
